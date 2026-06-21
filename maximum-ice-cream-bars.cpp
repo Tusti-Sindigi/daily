@@ -12,24 +12,19 @@ public:
         for(int c: costs)
             freq[c]++;
 
-        for(int i=1;i<freq.size();i++)
-            freq[i]+=freq[i-1];
+        int leftover=coins, max=0;
 
-        vector<int> sorted(costs.size(), 0);
-
-        for(int i=costs.size()-1;i>=0;i--)
+        for(int c=1;c<=greatest;c++)
         {
-            sorted[freq[costs[i]]-1]=costs[i];
-            freq[costs[i]]--;
-        }    
+            if(freq[c]>0)
+            {
+                int bars=min(freq[c], leftover/c);
+                max+=bars;
+                leftover-=c*bars;
 
-        int i=0, max=0;
-
-        while(i<sorted.size() && coins>=sorted[i])
-        {
-            max++;
-            coins-=sorted[i];
-            i++;
+                if(bars==0)
+                break;
+            }
         }
         return max;
     }
